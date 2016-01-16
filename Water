@@ -1,0 +1,198 @@
+
+public class Water {
+	
+	//Water Size [gallons]
+	double waterGallons;
+	double waterLiters;
+	
+	//Minerals [ppm]
+	int Ca;
+	int Mg;
+	int Na;
+	int SO4;
+	int Cl;
+	int HCO3;
+	
+	//Atomic Weights
+	double At_Ca = 40.078;
+	double At_Mg = 24.305;
+	double At_Na = 22.9898;
+	double At_SO4 = 96.06;
+	double At_Cl = 35.45;
+	double At_HCO3 = 61.0168;
+	double At_CO3 = 60.01;
+	
+	//Atomic Weight of Salts
+	double At_CaCO3 = At_Ca + At_CO3; //Chalk
+	double At_NaHCO3 = At_Na + At_HCO3; //Baking Soda
+	double At_NaCl = At_Na + At_Cl; //Table Salt
+	double At_CaSO4 = At_Ca + At_SO4; //Gypsum Salt
+	double At_CaCl2 = At_Ca + 2*At_Cl; // Calcium Chloride
+	double At_MgSO4 = At_Mg + At_SO4; //Epsom Salt
+	
+	public Water(){
+		
+	}
+	
+	//---Water Size---//
+	public void setWaterGallons(double waterInput){
+		waterGallons = waterInput;
+		waterLiters = waterGallons/0.264172;
+	}
+	
+	public void setWaterLiters(double waterInput){
+		waterLiters = waterInput;
+		waterGallons = waterLiters*0.264172;
+	}
+	
+	public double getWaterGallons(){
+		return waterGallons;
+	}
+	
+	public double getWaterLiters(){
+		return waterLiters;
+	}
+	
+	//---Ca---//
+	public void setCa(int CaInput){
+		Ca = CaInput;
+	}
+	
+	public int getCa(){
+		return Ca;
+	}
+	
+	//---Mg---//
+	public void setMg(int MgInput){
+		Mg = MgInput;
+	}
+	
+	public int getMg(){
+		return Mg;
+	}
+	
+	//---Na---//
+	public void setNa(int NaInput){
+		Na = NaInput;
+	}
+	
+	public int getNa(){
+		return Na;
+	}
+	
+	//---SO4---//
+	public void setSO4(int SO4Input){
+		SO4 = SO4Input;
+	}
+	
+	public int getSO4(){
+		return SO4;
+	}
+	
+	//---Cl---//
+	public void setCl(int ClInput){
+		Cl = ClInput;
+	}
+	
+	public int getCl(){
+		return Cl;
+	}
+	
+	//---HCO3---//
+	public void setHCO3(int HCO3Input){
+		HCO3 = HCO3Input;
+	}
+	
+	public int getHCO3(){
+		return HCO3;
+	}
+	
+	//---Adding Salts---//
+	public void addCaCO3(double grams){
+		//Chalk
+		
+		double CaGrams = grams*(At_Ca/At_CaCO3);
+		Ca = (int) ((CaGrams/waterLiters)*1000/2 + Ca);
+		
+		
+		double CO3Grams = grams*(At_CO3/At_CaCO3);
+		HCO3 = (int) ((CO3Grams/waterLiters)*1000 + HCO3);
+	}
+	
+	public void addNaHCO3(double grams){
+		//Baking Soda
+		
+		double NaGrams = grams*(At_Na/At_HCO3);
+		Na = (int) ((NaGrams/waterLiters)*1000 + Na);
+		
+		double HCO3Grams = grams*(At_HCO3/At_NaHCO3);
+		HCO3 = (int) ((HCO3Grams/waterLiters)*1000 + HCO3);
+	}
+	
+	public void addNaCl(double grams){
+		//Table salt
+		
+		double NaGrams = grams*(At_Na/At_NaCl);
+		Na = (int) ((NaGrams/waterLiters)*1000 + Na);
+		
+		double ClGrams = grams*(At_Cl/At_NaCl);
+		Cl = (int) ((ClGrams/waterLiters)*1000 + Cl);
+	}
+	
+	public void addCaSO4(double grams){
+		//Gypsum Salt
+		
+		double CaGrams = grams*(At_Ca/At_CaSO4);
+		Ca = (int) ((CaGrams/waterLiters)*1000 + Ca);
+		
+		double SO4Grams = grams*(At_SO4/At_CaSO4);
+		SO4 = (int) ((SO4Grams/waterLiters)*1000 + SO4);
+	}
+	
+	public void addCaCl2(double grams){
+		//Calcium Chloride
+		
+		double CaGrams = grams*(At_Ca/At_CaCl2);
+		Ca = (int) ((CaGrams/waterLiters)*1000 + Ca);
+		
+		double ClGrams = grams*(At_Cl*2/At_CaCl2);
+		Cl = (int) ((ClGrams/waterLiters)*1000 + Cl);
+	}
+	
+	public void addMgSO4(double grams){
+		//Epsom Salt
+		
+		double MgGrams = grams*(At_Mg/At_MgSO4);
+		Mg = (int) ((MgGrams/waterLiters)*1000/2 + Mg);
+		
+		double SO4Grams = grams*(At_SO4/At_MgSO4);
+		SO4 = (int) ((SO4Grams/waterLiters)*1000/2 + SO4);
+	}
+	
+	
+	//---Other---//
+	public void printMinerals(){
+		System.out.println("Ca: " + Ca);
+		System.out.println("Mg: " + Mg);
+		System.out.println("Na: " + Na);
+		System.out.println("SO4: " + SO4);
+		System.out.println("Cl: " + Cl);
+		System.out.println("HCO3: " + HCO3);
+	}
+	
+	public static void main(String[] args){
+		Water test = new Water();
+		//test.setCa(50);
+		test.setWaterGallons(5);
+		test.addCaCO3(15);
+		test.printMinerals();
+		
+		//CaCO3--HCO3 is low
+		//NaHCO3--Na doesnt work
+		//CaSO4--Neither works
+		//CaCl2--Neither works
+		//MgSO4--I think is douuble
+		//NaCl--Works but rounds funny
+		
+	}
+}
